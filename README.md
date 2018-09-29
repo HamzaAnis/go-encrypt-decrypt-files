@@ -51,5 +51,7 @@ $ encrypt_decrypt_file --key=[keytouse] --ef=[encrypt folder path] --df=[decrypt
 ```
 $ encrypt_decrypt_file --key my16bitaeskey123
 ```
-The key which is used to encrypt should be same as the key that will be used for decrypt
+The key which is used to encrypt should be same as the key that will be used for decrypt. 
+
+Change the AES key argument either 16, 24, or 32 bytes to select AES-128, AES-192, or AES-256.
 
