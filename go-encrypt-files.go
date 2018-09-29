@@ -35,23 +35,55 @@ func main() {
 		printMenu()
 		choice := readInput()
 		if choice == "encrypt" {
-			fmt.Print("enter file name to encrypt: ")
+			fmt.Print("enter file path to encrypt: ")
 			fileName := readInput()
 			encrypt(fileName, encryptFolder, key)
 		} else if choice == "decrypt" {
-
+			fmt.Print("enter file path to decrypt: ")
+			fileName := readInput()
+			decrypt(fileName, decryptFolder, key)
 		} else if choice == "exit" {
 			os.Exit(0)
 		} else {
 			c := color.New(color.FgRed, color.Bold)
 			c.Println("you entered wrong choice")
 		}
-
 	}
-	fmt.Println(*key)
-	fmt.Println(*encryptFolder)
-	fmt.Println(*decryptFolder)
+}
 
+func decrypt(fileName string, decryptFolder, keyString *string) {
+	ciphertext, err := ioutil.ReadFile(fileName)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	key := []byte(*keyString)
+	block, err := aes.NewCipher(key)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+
+	if len(ciphertext) < aes.BlockSize {
+		fmt.Println("file is invalid")
+		return
+	}
+
+	iv := ciphertext[:aes.BlockSize]
+
+	ciphertext = ciphertext[aes.BlockSize:]
+
+	stream := cipher.NewCFBDecrypter(block, iv)
+
+	stream.XORKeyStream(ciphertext, ciphertext)
+
+	folderPath := filepath.Join(".", *decryptFolder)
+	os.MkdirAll(folderPath, os.ModePerm)
+
+	p := filepath.FromSlash(*decryptFolder + "/" + filepath.Base(fileName))
+	ioutil.WriteFile(p, ciphertext, 777)
+	fmt.Println("written to path", p)
 }
 
 func encrypt(fileName string, encryptFolder, keyString *string) {
@@ -83,20 +115,10 @@ func encrypt(fileName string, encryptFolder, keyString *string) {
 	os.MkdirAll(folderPath, os.ModePerm)
 
 	// create a new file for saving the encrypted data.
-	p := filepath.FromSlash(*encryptFolder + "/" + fileName)
+	p := filepath.FromSlash(*encryptFolder + "/" + filepath.Base(fileName))
 
-	// f, err := os.Create(p)
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// _, err = io.Copy(f, bytes.NewReader(ciphertext))
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	return
-	// }
-	// fmt.Println("written to path", p)
 	ioutil.WriteFile(p, ciphertext, 777)
+	fmt.Println("written to path", p)
 }
 func printMenu() {
 	c := color.New(color.FgCyan, color.Bold)
