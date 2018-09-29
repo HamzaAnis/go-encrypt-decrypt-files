@@ -24,7 +24,7 @@ func main() {
 	decryptFolder := flag.String("df", "decrypt", "folder path to store decrypted files")
 
 	flag.Parse()
-
+	fmt.Println("your key:", *key)
 	for {
 		// Check if the key is valid
 		if _, err := aes.NewCipher([]byte(*key)); err != nil {
@@ -147,6 +147,7 @@ func inputKey(key *string) {
 		color.Red("error while reading key")
 	}
 	*key = strings.TrimSpace(string(input))
+	fmt.Println("your key:", *key)
 }
 func printHeader() {
 	banner := "           _________________________________________ \n" +
