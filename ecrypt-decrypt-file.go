@@ -20,8 +20,8 @@ func main() {
 
 	printHeader()
 	key := flag.String("key", "default key 1234", "key to encrypt and decrypt")
-	encryptFolder := flag.String("ef", "encrypt", "folder in which encrypted files will be stored")
-	decryptFolder := flag.String("df", "decrypt", "folder in which decrypted files will be stored ")
+	encryptFolder := flag.String("ef", "encrypt", "folder path to store encrypted files")
+	decryptFolder := flag.String("df", "decrypt", "folder path to store decrypted files")
 
 	flag.Parse()
 
