@@ -19,7 +19,7 @@ import (
 func main() {
 
 	printHeader()
-	key := flag.String("key", "encrypt_files", "key to encrypt and decrypt")
+	key := flag.String("key", "default key 1234", "key to encrypt and decrypt")
 	encryptFolder := flag.String("ef", "encrypt", "folder in which encrypted files will be stored")
 	decryptFolder := flag.String("df", "decrypt", "folder in which decrypted files will be stored ")
 
