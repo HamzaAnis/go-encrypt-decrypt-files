@@ -28,7 +28,7 @@ func main() {
 	for {
 		// Check if the key is valid
 		if _, err := aes.NewCipher([]byte(*key)); err != nil {
-			fmt.Println(err, ", key can be 16 ,24 or 32 bytes")
+			fmt.Println(err, ",key can be 16 ,24 or 32 bytes")
 			inputKey(key)
 			continue
 		}
