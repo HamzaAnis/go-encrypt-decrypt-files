@@ -37,7 +37,7 @@ def banner():
 
 def choose_module():
     module = None
-    while module != '1' and module != '2' and module != '3':
+    while module != '1' and module != '2' and module != '3' and module != '4':
         module = raw_input("\n=> ")
     if module == '1':
         module = "AES"
@@ -45,6 +45,8 @@ def choose_module():
         module = "RSA"
     elif module == '3':
         module = "HASH"
+    elif module == '4':
+        module = "EXIT"
     return module
 
 
@@ -59,6 +61,8 @@ def main():
     print("[1] AES Encryption  (128, 192 or 256 bits)")
     print("[2] RSA Encryption  (512 or 1024 bits)")
     print("[3] Fingerprint     (SHA-1, SHA-265 and MD5)")
+    print("[4] Exit")
+
     module = choose_module()
     if module == "AES":
         MirrorAesModule.main(opts.file_path, opts.folder_path, opts.text)
@@ -66,7 +70,8 @@ def main():
         MirrorRsaModule.main(opts.text)
     elif module == "HASH":
         MirrorHashModule.main(opts.file_path, opts.folder_path, opts.text)
-
+    elif module == "EXIT":
+        exit(1)
 
 
 if __name__ == '__main__':
